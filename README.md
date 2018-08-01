@@ -1,12 +1,5 @@
 "# sample-jboss" 
 Testpp9991118880ssss
-sssssssssssssss
-ssssssssssssss
-000
-ssssssssssssss
-ssssssssssssss
-ssssssssssssss
-sss
 phases:
   pre_build:
     commands:
