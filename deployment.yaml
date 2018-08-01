@@ -1,0 +1,27 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  name: sample-jboss
+spec:
+  replicas: 1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        name: sample-jboss
+    spec:
+      containers:
+      - image: cloudin.dst.ibm.com:8500/nextgen-tool-ns/sample-jboss:latest
+        name: sample-jboss
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+           cpu: 200m
+           memory: 500Mi
+          requests:
+            cpu: 200m
+            memory: 500Mi
+      restartPolicy: Always
+status: {}
