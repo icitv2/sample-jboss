@@ -1,0 +1,12 @@
+[{
+        "Cpu": 256,
+        "image": "sample-jboss",
+        "Memory": 512,
+        "name": "app",
+        "networkMode": "awsvpc",
+        "portMappings": [{
+                "ContainerPort": 3000,
+                "HostPort": 3000
+        }]
+}]
+
