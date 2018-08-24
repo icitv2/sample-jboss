@@ -1,6 +1,6 @@
 [{
         "Cpu": 256,
-        "image": "%%%ImageName$$$",
+        "image": "None:latest",
         "Memory": 512,
         "name": "app",
         "networkMode": "awsvpc",
