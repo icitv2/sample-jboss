@@ -1,0 +1,38 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - pip install awscli --upgrade --user
+      - echo `aws --version`
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --region ${region} --no-include-email)
+      - REPOSITORY_URI=${repository_url}
+      - echo ${repository_url}
+      - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
+      - apt-get update
+      - apt-get install -y default-jdk
+      - apt-get install -y maven
+      - echo Entered the pre_build phase...
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Building the Docker image...
+      - cd webapp
+      - mvn clean install
+      - pwd
+      - cd ..
+      - cp webapp/target/everest-1.0-SNAPSHOT.war . && docker build --no-cache -t $REPOSITORY_URI:latest . && rm -f webapp/target/everest-1.0-SNAPSHOT.war
+      - docker push $REPOSITORY_URI:latest
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker images...
+      - docker push $REPOSITORY_URI:latest
+      #- docker push $REPOSITORY_URI:$IMAGE_TAG
+      - echo Writing image definitions file...
+      - printf '[{"name":"web","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
+      - echo upgrading db-migrate task definitions
+      - aws ecs run-task --launch-type FARGATE --cluster 'tf_aws_ecs-cluster' --task-definition '%%%TaskDefinition$$$' --network-configuration '%%%NetworkConfiguration$$$'
+artifacts:
+  files: imagedefinitions.json
