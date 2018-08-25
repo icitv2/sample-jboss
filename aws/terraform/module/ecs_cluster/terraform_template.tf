@@ -57,7 +57,7 @@
       "description": "Provider AWS Access Key"
     },
     "app_count": {
-      "default": 2,
+      "default": 1,
       "description": "Number of docker containers to run"
     },
     "app_port": {
