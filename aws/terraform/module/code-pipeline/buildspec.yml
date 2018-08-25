@@ -1,38 +1,49 @@
 version: 0.2
 
+env:
+   type: LINUX_CONTAINER
+   image: aws/codebuild/docker:17.09.0
 phases:
   pre_build:
     commands:
       - pip install awscli --upgrade --user
       - echo `aws --version`
+      - echo Entered the install phase...
+      - apt-get update -y
+      - apt-get install -y maven
+      - apt-get install -y default-jdk
       - echo Logging in to Amazon ECR...
+      - echo ${repository_url}
       - $(aws ecr get-login --region ${region} --no-include-email)
       - REPOSITORY_URI=${repository_url}
-      - echo ${repository_url}
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
-      - apt-get update
-      - apt-get install -y default-jdk
-      - apt-get install -y maven
       - echo Entered the pre_build phase...
   build:
     commands:
+      - echo Java Home is ...............
+      - echo $JAVA_HOME
+      - echo Path is ............
+      - echo $PATH
+      - echo Contents of dir..........
+      - echo `ls /usr/lib/jvm`
       - echo Build started on `date`
-      - echo Building the Docker image...
+      - echo performing maven build
       - cd webapp
       - mvn clean install
-      - pwd
       - cd ..
-      - cp webapp/target/everest-1.0-SNAPSHOT.war . && docker build --no-cache -t $REPOSITORY_URI:latest . && rm -f webapp/target/everest-1.0-SNAPSHOT.war
-      - docker push $REPOSITORY_URI:latest
+      - echo Building the Docker image...
+      - docker build --no-cache -t $REPOSITORY_URI:latest .
+      - echo $REPOSITORY_URI
+      - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
       - docker push $REPOSITORY_URI:latest
-      #- docker push $REPOSITORY_URI:$IMAGE_TAG
+      - docker push $REPOSITORY_URI:$IMAGE_TAG
       - echo Writing image definitions file...
       - printf '[{"name":"web","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
       - echo upgrading db-migrate task definitions
-      - aws ecs run-task --launch-type FARGATE --cluster 'tf_aws_ecs-cluster' --task-definition '%%%TaskDefinition$$$' --network-configuration '%%%NetworkConfiguration$$$'
+      - aws ecs run-task --launch-type FARGATE --cluster ${cluster_name} --task-definition app --network-configuration '%%%NetworkConfiguration$$$'
 artifacts:
   files: imagedefinitions.json
