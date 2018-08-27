@@ -1,6 +1,6 @@
 [{
         "Cpu": 256,
-        "image": "550229128112.dkr.ecr.us-east-1.amazonaws.com/nextgentool:latest",
+        "image": "None:latest",
         "Memory": 512,
         "name": "app",
         "networkMode": "awsvpc",
