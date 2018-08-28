@@ -61,7 +61,7 @@
       "description": "Number of docker containers to run"
     },
     "app_port": {
-      "default": 3000,
+      "default": 8080,
       "description": "Port exposed by the docker image to redirect traffic to"
     },
     "aws_alb_target_group_app": {
