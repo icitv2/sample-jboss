@@ -5,8 +5,8 @@
         "name": "app",
         "networkMode": "awsvpc",
         "portMappings": [{
-                "ContainerPort": 8080,
-                "HostPort": 8080
+                "ContainerPort": 3000,
+                "HostPort": 3000
         }]
 }]
 
