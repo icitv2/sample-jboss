@@ -31,11 +31,6 @@
             }
         }
     },
-    "output": {
-        "codepipeline": {
-            "value": "${aws_codepipeline.pipeline.id}"
-        }
-    },
     "provider": {
         "aws": {
             "__DEFAULT__": {
