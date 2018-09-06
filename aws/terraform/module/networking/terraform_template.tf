@@ -5,16 +5,13 @@
     }
   },
   "output": {
-    "alb_hostname": {
-      "value": "${aws_alb.main.dns_name}"
-    },
-    "aws_alb_target_group.app.id": {
+    "aws_alb_target_group_app": {
       "value": "${aws_alb_target_group.app.id}"
     },
-    "aws_security_group.ecs_tasks": {
+    "aws_security_group_ecs_tasks": {
       "value": "${aws_security_group.ecs_tasks.id}"
     },
-    "aws_subnet.private.*.id": {
+    "aws_subnet_private_ids": {
       "value": "${aws_subnet.private.*.id}"
     }
   },
