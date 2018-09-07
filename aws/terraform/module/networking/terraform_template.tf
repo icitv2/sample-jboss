@@ -15,7 +15,7 @@
       "value": "${aws_subnet.private.*.id}"
     },
     "vpc_main": {
-      "vault": "${aws_vpc.main.id}"
+      "value": "${aws_vpc.main.id}"
     }
   },
   "provider": {
