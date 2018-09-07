@@ -13,6 +13,9 @@
     },
     "aws_subnet_private_ids": {
       "value": "${aws_subnet.private.*.id}"
+    },
+    "vpc_main": {
+      "vault": "${aws_vpc.main.id}"
     }
   },
   "provider": {
