@@ -30,7 +30,7 @@
   "resource": {
     "aws_alb": {
       "main": {
-        "name": "tf-ecs-chat",
+        "name": "tf-ecs-alb",
         "security_groups": [
           "${aws_security_group.lb.id}"
         ],
@@ -54,7 +54,7 @@
     },
     "aws_alb_target_group": {
       "app": {
-        "name": "tf-ecs-chat",
+        "name": "tf-ecs-alb-target-group",
         "port": "${var.alb_port}",
         "protocol": "HTTP",
         "target_type": "ip",
