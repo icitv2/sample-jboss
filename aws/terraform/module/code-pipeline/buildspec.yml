@@ -15,7 +15,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - echo ${repository_url}
       - $(aws ecr get-login --region ${region} --no-include-email)
-      - REPOSITORY_URI=${repository_url}-sample-jboss
+      - REPOSITORY_URI=${repository_url}
       - IMAGE_TAG=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - echo Entered the pre_build phase...
   build:
@@ -44,7 +44,6 @@ phases:
       - echo Writing image definitions file...
       - printf '[{"name":"app","imageUri":"%s"}]' $REPOSITORY_URI:latest > imagedefinitions.json
       - echo upgrading db-migrate task definitions
-      #- aws ecs run-task --launch-type FARGATE --cluster ${cluster_name} --task-definition app --network-configuration '%%%NetworkConfiguration$$$'
-      - aws ecs run-task --launch-type FARGATE --cluster ${cluster_name} --task-definition app --network-configuration 'awsvpcConfiguration={subnets=[<Add subnets here>],securityGroups=[<Add Security groups here>]}'
+      - aws ecs run-task --launch-type FARGATE --cluster ${cluster_name} --task-definition app --network-configuration '%%%NetworkConfiguration$$$'
 artifacts:
   files: imagedefinitions.json
