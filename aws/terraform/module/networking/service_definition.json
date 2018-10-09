@@ -1,6 +1,6 @@
 [{
         "Cpu": 256,
-        "image": "550229128112.dkr.ecr.us-east-1.amazonaws.com/nextgentool-sample-jboss:latest",
+        "image": "sample-jboss",
         "Memory": 512,
         "name": "app",
         "networkMode": "awsvpc",
