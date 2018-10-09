@@ -5,17 +5,17 @@
     }
   },
   "output": {
-    "aws_alb_target_group_app": {
+    "alb_hostname": {
+      "value": "${aws_alb.main.dns_name}"
+    },
+    "aws_alb_target_group.app.id": {
       "value": "${aws_alb_target_group.app.id}"
     },
-    "aws_security_group_ecs_tasks": {
+    "aws_security_group.ecs_tasks": {
       "value": "${aws_security_group.ecs_tasks.id}"
     },
-    "aws_subnet_private_ids": {
+    "aws_subnet.private.*.id": {
       "value": "${aws_subnet.private.*.id}"
-    },
-    "vpc_main": {
-      "value": "${aws_vpc.main.id}"
     }
   },
   "provider": {
