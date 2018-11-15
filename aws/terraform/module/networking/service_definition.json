@@ -1,6 +1,6 @@
 [{
         "Cpu": 256,
-        "image": "sample-jboss",
+        "image": "monolith-jboss",
         "Memory": 512,
         "name": "app",
         "networkMode": "awsvpc",
