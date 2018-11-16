@@ -32,17 +32,17 @@ phases:
       - mvn clean install
       - cd ..
       - echo Building the Docker image...
-      - docker build --no-cache -t $REPOSITORY_URI:monolith-jboss_latest .
+      - docker build --no-cache -t $REPOSITORY_URI:sample-jboss_latest .
       - echo $REPOSITORY_URI
-      - docker tag $REPOSITORY_URI:monolith-jboss_latest $REPOSITORY_URI:monolith-jboss_$IMAGE_TAG
+      - docker tag $REPOSITORY_URI:sample-jboss_latest $REPOSITORY_URI:sample-jboss_$IMAGE_TAG
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker images...
-      - docker push $REPOSITORY_URI:monolith-jboss_latest
-      - docker push $REPOSITORY_URI:monolith-jboss_$IMAGE_TAG
+      - docker push $REPOSITORY_URI:sample-jboss_latest
+      - docker push $REPOSITORY_URI:sample-jboss_$IMAGE_TAG
       - echo Writing image definitions file...
-      - printf '[{"name":"app","imageUri":"%s"}]' $REPOSITORY_URI:monolith-jboss_latest > imagedefinitions.json
+      - printf '[{"name":"app","imageUri":"%s"}]' $REPOSITORY_URI:sample-jboss_latest > imagedefinitions.json
       - echo upgrading db-migrate task definitions
       - aws ecs run-task --launch-type FARGATE --cluster ${cluster_name} --task-definition app --network-configuration 'awsvpcConfiguration={subnets=[<Add subnets here>],securityGroups=[<Add Security groups here>]}'
 artifacts:
